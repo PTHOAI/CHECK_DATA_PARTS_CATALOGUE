@@ -1,7 +1,7 @@
 var setColumn = [
     { width: 25 },
-    { width: 25 },
-    { width: 25 },
+    { width: 35 },
+    { width: 35 },
     { width: 25 },
     { width: 25 },
 ]
@@ -16,6 +16,16 @@ var actionClick = "";
 var arrlistGoc = [];
 var arrlistSS = [];
 var arrExportExcel = [];
+var arrListDesLK = [];
+var arrLisTNameVN = [];
+var arrListDesBOM = [];
+var arrListNameVNBOM = [];
+var arrListNameENBOM = [];
+var arrListNameMSPHOIBOM = [];
+var arrListDesRes = [];
+var arrListVNRes = [];
+var arrListENRes = [];
+
 var start = () => {
     $('.wrap-content').css({ height: `${window.innerHeight - 129}px` })
     const dropArea = document.querySelector(".box-add-ss"),
@@ -109,76 +119,112 @@ let getIndex = (value, arr) => {
 
 
 let hadleDataFileGoc = (arrs) => {
+    console.log("danh mục linh kiện")
     hideloading();
     arrlistGoc = [];
-    let indexTitle = null;
-    let indexDes = null;
     let indexName = null;
-    let indexProject = null;
-    indexTitle = getIndex("tên", arrs)?.index;
-    indexDes = getIndex("Mã số", arrs)?.index;
-    indexName = getIndex("Name", arrs)?.index;
-    indexProject = getIndex("dự án", arrs)?.index;
+    let indexDes = null;
+    indexDes = getIndex("MÃ NVL", arrs)?.index;
+    indexName = getIndex("TÊN TIẾNG VIỆT", arrs)?.index;
 
-    if (indexTitle != null & indexDes != null & indexName != null & indexProject != null) {
+    if (indexDes != null & indexName != null) {
         arrs.forEach((item, index) => {
-            if (getIndex("tên", arrs)?.indexAll < index) {
-                arrlistGoc.push([item[indexTitle], item[indexDes], item[indexName], item[indexProject]])
+            if (item[indexDes] != "MÃ NVL" && item[indexName] != "TÊN TIẾNG VIỆT") {
+                arrListDesLK.push(item[indexDes])
+                arrLisTNameVN.push(item[indexName])
+                // console.log(item)
             }
         })
     }
-    // console.log('final:', arrlistGoc)
 }
 
 let hadleDataFileSS = (arrs) => {
+    console.log("danh mục BOM")
+    // console.log("arrListDesLK: ", arrListDesLK)
+    // console.log("arrLisTNameVN: ", arrLisTNameVN)
     arrlistSS = [];
-    let indexTitle = null;
+    let indexNameEN = null;
     let indexDes = null;
-    let indexName = null;
-    let indexProject = null;
-    indexTitle = getIndex("tên", arrs)?.index;
-    indexDes = getIndex("Mã số", arrs)?.index;
-    indexName = getIndex("Name", arrs)?.index;
-    indexProject = getIndex("dự án", arrs)?.index;
+    let indexNamePHOI = null;
+    indexNameEN = getIndex("Tên tiếng anh", arrs)?.index;
+    indexDes = getIndex("Mã số linh kiện", arrs)?.index;
+    indexNamePHOI = getIndex("Mã số phôi", arrs)?.index;
 
-    if (indexTitle != null & indexDes != null & indexName != null & indexProject != null) {
+    // console.log("indexDes: ", indexDes)
+    // console.log("indexNameEN: ", indexNameEN)
+    // console.log("indexNamePHOI: ", indexNamePHOI)
+    // console.log("indexNameVN: ", indexDes + 2)
+    if (indexDes != null & indexNameEN != null & indexNamePHOI != null) {
         arrs.forEach((item, index) => {
-            if (getIndex("tên", arrs)?.indexAll < index) {
-                arrlistSS.push([item[indexTitle], item[indexDes], item[indexName], item[indexProject]])
+            if (item[indexDes] != null & item[indexDes] != "Mã số linh kiện" & item[indexDes] != "THÔNG TIN VẬT TƯ LINH KIỆN") {
+                // console.log("indexNameVN: ", item)
+                arrListDesBOM.push(item[indexDes]);
+                arrListNameVNBOM.push(item[indexDes + 2]);
+                arrListNameENBOM.push(item[indexDes + 3]);
+                arrListNameMSPHOIBOM.push(item[indexNamePHOI]);
             }
         })
     }
+    // console.log(arrListDesBOM);
+    // console.log(arrListNameVNBOM);
+    // console.log(arrListNameENBOM);
+    // console.log(arrListNameMSPHOIBOM);
+
+
     // console.log('finalSS:', arrlistSS)
-    if (arrlistGoc.length > 0) {
+    if (arrListDesBOM.length > 0) {
         compareDataTwoFile()
-        // console.log("haha")
     }
 
 }
 
 let compareDataTwoFile = () => {
-    // console.log("ok", arrlistGoc, arrlistSS)
-    arrlistSS.forEach((item1, index1) => {
-        let status = true;
-        arrlistGoc.forEach((item2, index2)=> {
-            if (item1[2] == item2[2]) {
-                if (!arrlistGoc[index2][3].includes(item1[3])) {
-                    arrlistGoc[index2][3] = `${ arrlistGoc[index2][3]} + ${item1[3]}`
-                }
-                status = false;
+
+    arrListDesLK.forEach((item, index) => {
+        // index là vị trí mã số danh mục chi tiết
+        // getLocationDesBOM(item, arrListDesBOM) vị trí mã số danh mục BOM
+        if (getLocation(item, arrListDesBOM) != null) {
+            // console.log("item", arrListDesBOM[getLocation(item, arrListDesBOM)])
+            // console.log("item", arrListNameVNBOM[getLocation(item, arrListDesBOM)])
+            // console.log("item", arrListNameENBOM[getLocation(item, arrListDesBOM)])
+            // console.log("item", arrListNameMSPHOIBOM[getLocation(item, arrListDesBOM)], arrListNameMSPHOIBOM)
+            arrlistGoc.push([arrListDesBOM[getLocation(item, arrListDesBOM)],arrListNameVNBOM[getLocation(item, arrListDesBOM)],arrListNameENBOM[getLocation(item, arrListDesBOM)],arrListNameMSPHOIBOM[getLocation(item, arrListDesBOM)]])
+        } else {
+            // mã số không có trong BOM
+            // mã số ko có lấy tên tiếng việt để điền tên tiếng anh
+            if (getLocation(arrLisTNameVN[index], arrListNameVNBOM) != null) {
+                // console.log("item2-MS", item)
+                // console.log("item2-VN", arrLisTNameVN[index])
+                // console.log("item2-EN", arrListNameENBOM[getLocation(arrLisTNameVN[index], arrListNameVNBOM)])
+                // console.log("item2-NCC", "")
+                arrlistGoc.push([item,arrLisTNameVN[index],arrListNameENBOM[getLocation(arrLisTNameVN[index], arrListNameVNBOM)],""])
+            }else {
+                arrlistGoc.push([item,arrLisTNameVN[index],"",""])
             }
-        })
-        if (status) {
-            arrlistGoc.push(item1)
+
+
         }
+
+
     })
 
-    // console.log("hahaOK:",arrlistGoc)
+    // arrlistGoc.push([1111,2222,3333,4444])
     exportListExcel()
 }
 
+let getLocation = (value, arrs) => {
+    let res = null
+    arrs.forEach((item, index) => {
+        if (value == item) {
+            res = index
+        }
+    })
+    return res
+}
+
+
 let exportListExcel = () => {
-    arrlistGoc.unshift(['Tên', "Mã số", 'Name', 'Dự án'])
+    arrlistGoc.unshift(['Mã số', "Tên tiếng việt", 'Tên tiếng anh', 'NCC'])
     // console.log("haha")
     var d = new Date();
     let Today = `${d.getDate()}_${d.getMonth() + 1}_${d.getFullYear()}`;
