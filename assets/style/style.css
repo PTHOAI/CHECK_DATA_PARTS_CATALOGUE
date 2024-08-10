@@ -77,6 +77,10 @@ h1 {
   overflow: auto;
   margin-bottom: 20px;
 }
+#wrap-item-row1, #wrap-item-row2 {
+  overflow: auto;
+  margin-bottom: 20px;
+}
 .item-list {
   box-shadow: 2px 2px 5px #00529c;
   border-radius: 7px;

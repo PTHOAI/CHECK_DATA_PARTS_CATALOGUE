@@ -40,6 +40,8 @@ var start = () => {
     $("#box-info1").show()
     $('.wrap-content').css({ height: `${window.innerHeight - 129}px` })
     $('#list-MS').css({ height: `${window.innerHeight - 483}px` })
+    $('#wrap-item-row1').css({ height: `${window.innerHeight - 483}px` })
+    $('#wrap-item-row2').css({ height: `${window.innerHeight - 483}px` })
     console.log(window.innerHeight)
     const dropArea = document.querySelector(".box-add-ss"),
         button = dropArea.querySelector(".button-goc"),
