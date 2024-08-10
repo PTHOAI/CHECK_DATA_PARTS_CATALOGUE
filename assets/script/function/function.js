@@ -25,9 +25,22 @@ var arrListNameMSPHOIBOM = [];
 var arrListDesRes = [];
 var arrListVNRes = [];
 var arrListENRes = [];
+var countNoExist = 0;
+var arrListDesNoExist = [];
+var countNameFalse = 0;
+var arrListNameFalse = [];
+var arrListNameFalseBOM = [];
+
+$(window).on("load resize ", function () {
+    var scrollWidth = $('.tbl-content').width() - $('.tbl-content table').width();
+    $('.tbl-header').css({ 'padding-right': scrollWidth });
+}).resize();
 
 var start = () => {
+    $("#box-info1").show()
     $('.wrap-content').css({ height: `${window.innerHeight - 129}px` })
+    $('#list-MS').css({ height: `${window.innerHeight - 483}px` })
+    console.log(window.innerHeight)
     const dropArea = document.querySelector(".box-add-ss"),
         button = dropArea.querySelector(".button-goc"),
         button2 = dropArea.querySelector(".button-ss"),
@@ -61,6 +74,47 @@ var start = () => {
             abc.innerText = fileName;
         }
     });
+
+    let rederDataMS = (arrs) => {
+        let res = '';
+        arrs.forEach((item) => {
+            res = res + `<div class="item-list">${item}</div>`
+        })
+        return res;
+    }
+
+    let copyData = () => {
+        var urlField = document.querySelector('.item-list');
+        // console.log("urlField: ", urlField)
+        var range = document.createRange();
+        // console.log("range: ", range)
+        range.selectNode(urlField);
+        // console.log("range2: ", range.selectNode(urlField))
+        window.getSelection().addRange(range);
+        document.execCommand('copy');
+    }
+
+    $("#show-detail").click(() => {
+        $("#box-info2").show()
+        $("#box-info1").hide()
+        $("#list-MS").html("");
+        $("#wrap-item-row1").html("");
+        $("#wrap-item-row2").html("")
+        $("#list-MS").append(rederDataMS(arrListDesNoExist))
+        $("#wrap-item-row1").append(rederDataMS(arrListNameFalse))
+        $("#wrap-item-row2").append(rederDataMS(arrListNameFalseBOM))
+    })
+
+    $('#back-home').click(()=>{
+        $("#box-info2").hide()
+        $("#box-info1").show()
+    })
+
+    $('#get-ms-false').click(()=> {
+        setTimeout(()=>{
+            copyData()
+        },1000)
+    })
 }
 
 // **************************** define Function *********************************************88
@@ -183,13 +237,21 @@ let compareDataTwoFile = () => {
     arrListDesLK.forEach((item, index) => {
         // index là vị trí mã số danh mục chi tiết
         // getLocationDesBOM(item, arrListDesBOM) vị trí mã số danh mục BOM
-        if (getLocation(item, arrListDesBOM) != null) {
+        let indexDes = getLocation(item, arrListDesBOM)
+        if (indexDes != null) {
             // console.log("item", arrListDesBOM[getLocation(item, arrListDesBOM)])
             // console.log("item", arrListNameVNBOM[getLocation(item, arrListDesBOM)])
             // console.log("item", arrListNameENBOM[getLocation(item, arrListDesBOM)])
             // console.log("item", arrListNameMSPHOIBOM[getLocation(item, arrListDesBOM)], arrListNameMSPHOIBOM)
-            arrlistGoc.push([arrListDesBOM[getLocation(item, arrListDesBOM)],arrListNameVNBOM[getLocation(item, arrListDesBOM)],arrListNameENBOM[getLocation(item, arrListDesBOM)],arrListNameMSPHOIBOM[getLocation(item, arrListDesBOM)]])
+            if (arrLisTNameVN[index] != arrListNameVNBOM[indexDes]) {
+                countNameFalse = countNameFalse + 1;
+                arrListNameFalse.push(arrLisTNameVN[index])
+                arrListNameFalseBOM.push(arrListNameVNBOM[indexDes])
+            }
+            arrlistGoc.push([arrListDesBOM[getLocation(item, arrListDesBOM)], arrListNameVNBOM[getLocation(item, arrListDesBOM)], arrListNameENBOM[getLocation(item, arrListDesBOM)], arrListNameMSPHOIBOM[getLocation(item, arrListDesBOM)]])
         } else {
+            countNoExist = countNoExist + 1;
+            arrListDesNoExist.push(item)
             // mã số không có trong BOM
             // mã số ko có lấy tên tiếng việt để điền tên tiếng anh
             if (getLocation(arrLisTNameVN[index], arrListNameVNBOM) != null) {
@@ -197,19 +259,29 @@ let compareDataTwoFile = () => {
                 // console.log("item2-VN", arrLisTNameVN[index])
                 // console.log("item2-EN", arrListNameENBOM[getLocation(arrLisTNameVN[index], arrListNameVNBOM)])
                 // console.log("item2-NCC", "")
-                arrlistGoc.push([item,arrLisTNameVN[index],arrListNameENBOM[getLocation(arrLisTNameVN[index], arrListNameVNBOM)],""])
-            }else {
-                arrlistGoc.push([item,arrLisTNameVN[index],"",""])
+                arrlistGoc.push([item, arrLisTNameVN[index], arrListNameENBOM[getLocation(arrLisTNameVN[index], arrListNameVNBOM)], ""])
+            } else {
+                arrlistGoc.push([item, arrLisTNameVN[index], "", ""])
             }
 
-
         }
-
-
     })
 
+    $('.numbers-exist').text(countNoExist)
+    $('.mumbers-fale-name').text(countNameFalse)
+
+
+    // console.log(countNameFalse)
+    // console.log(arrListNameFalse)
+    // console.log(arrListNameFalseBOM)
+    // console.log("countNoExist: ", countNoExist, arrListDesNoExist)
+
     // arrlistGoc.push([1111,2222,3333,4444])
-    exportListExcel()
+    
+    if (arrlistGoc.length > 0) {
+        $(".content-info-12").show()
+        exportListExcel()
+    }
 }
 
 let getLocation = (value, arrs) => {

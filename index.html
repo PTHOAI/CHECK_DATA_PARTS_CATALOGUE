@@ -53,22 +53,64 @@
     </div>
     <div style="padding: 20px;" class="wrap-content wrap-box-add-ss">
        
-        <div class="box-add-ss">
+        <div class="box-add-ss" id="box-info1" style="display: none;">
             <div style="text-align: center; font-weight: bold; font-size: 22px; padding: 20px 0px;">THÔNG TIN FILE ĐÃ NẠP</div>
             <div class="content-info">Danh mục linh kiện: <span class="file-goc">chưa nạp file</span></div>
             <div class="content-info">Danh mục BOM: <span class="file-ssz">chưa nạp file</span></div>
             <div class="phan-cach"></div>
             <div class="content-info">Số lượng mã không tồn tại: <span class="numbers-exist" style="font-weight: bold;">0</span></div>
             <div class="content-info">Số lượng tên không khớp: <span class="mumbers-fale-name" style="font-weight: bold;">0</span></div>
+            <div class="content-info-12" style="display: none;">
+                <button class="custom-btn btn-16 " id="show-detail" style="margin: 15px;">Xem chi tiết</button>
+            </div>
             <div class="wrap-input-file" style="text-align: center;">
                 <input class="input-goc" type="file" hidden accept=".xlsx" id="fileID" style="display:none;">
                 <button class="custom-btn btn-16 button-goc" >Nạp danh mục linh kiện</button>
-                <!-- <button class="btn button-ss" style="margin-left: 0px;">Nạp danh mục BOM</button> -->
                 <button class="custom-btn btn-16 button-ss" >Nạp danh mục BOM</button>
             </div>
         </div>
 
+
+        <div class="box-add-ss" id="box-info2" style="display: none;">
+            <div style="text-align: center; font-weight: bold; font-size: 22px; padding: 20px 0px;">THÔNG TIN CHI TIẾT</div>
+            <div class="wrap-content-detal" style="display: flex;">
+                <div class="content-ms">
+                    <div class="content-info" style="padding-bottom: 0px;">Danh sách mã số không khớp với danh sách BOM</div>
+                    <div style="display: flex; justify-content: center; border-bottom: 1px solid #00529c; margin-bottom: 10px;">
+                        <button class="custom-btn btn-16 " id="get-ms-false" style="margin: 15px;">Lấy dữ liệu</button>
+                    </div>
+                    <div id="list-MS">
+                        <div class="item-list">123</div>                    
+                    </div>
+                </div>
+                <div class="content-name">
+                    <div class="content-info" style="padding-bottom: 0px;">Danh sách tên không khớp với danh sách BOM</div>
+                    <div style="display: flex; justify-content: center; border-bottom: 1px solid #00529c; margin-bottom: 10px;">
+                        <button class="custom-btn btn-16 " id="get-name-false" style="margin: 15px;">Lấy dữ liệu</button>
+                    </div>
+                    <div id="list-name-false">
+                        <div id="wrap-item-row1" class="wrap-item-row1" style="margin-right: 10px;">
+                            <div class="item-list">123</div>
+                        </div>
+                        <div id="wrap-item-row2" class="wrap-item-row2">
+                            <div class="item-list">123</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: flex; justify-content: center;">
+                <button class="custom-btn btn-16 " id="back-home" style="margin: 15px;">Quay lại</button>
+            </div>
+        </div>
+        
+
+
     </div>
+
+    <!-- <div style="padding: 20px;" class="wrap-content wrap-box-add-ss wrap-detail">
+
+    </div> -->
     <div class="css_footer">
         <div >Copyright©2024 Phan Thanh Hoài</div>
     </div>

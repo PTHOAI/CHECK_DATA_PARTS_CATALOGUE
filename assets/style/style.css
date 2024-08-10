@@ -72,21 +72,29 @@ h1 {
 
 
 /* table */
-table {
-  max-height: 20px;
+#list-MS {
+  padding: 0px 20px;
+  overflow: auto;
+  margin-bottom: 20px;
+}
+.item-list {
+  box-shadow: 2px 2px 5px #00529c;
+  border-radius: 7px;
+  margin-bottom: 7px;
+  padding: 2px 4px;
+}
+#list-name-false {
+  display: flex;
+  padding: 0px 20px;
+}
+.wrap-item-row1 {
+  width: 45%;
+}
+.wrap-item-row2 {
+  width: 45%;
 }
 
-table,
-th,
-td {
-  border: 0.6px solid black;
-  border-collapse: collapse;
-  font-size: 16px;
-}
-
-table tr td {
-  width: 100px;
-}
+/* end-table */
 
 .phan-cach {
   border: 1px solid #00529c;
@@ -1310,4 +1318,17 @@ button {
 
 .btn-16:active {
   top: 2px;
+}
+
+.content-info-12 {
+  border-top: 1px solid #00529c;
+  border-bottom: 1px solid #00529c;
+  box-shadow: 3px 2px 15px #00529c;
+  display: flex;
+  justify-content: center;
+}
+
+.content-ms {
+  border-right: 1px solid #00529c;
+  min-height: 200px;
 }
