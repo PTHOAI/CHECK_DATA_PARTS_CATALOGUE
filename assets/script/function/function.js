@@ -27,6 +27,7 @@ var arrListVNRes = [];
 var arrListENRes = [];
 var countNoExist = 0;
 var arrListDesNoExist = [];
+var arrListNameNoExist = [];
 var countNameFalse = 0;
 var arrListNameFalse = [];
 var arrListNameFalseBOM = [];
@@ -85,26 +86,52 @@ var start = () => {
         return res;
     }
 
-    let copyData = () => {
-        var urlField = document.querySelector('.item-list');
+    let rederDataCopy = (arrs) => {
+        let res = '';
+        arrs.forEach((item) => {
+            res = res + `<tr><td>${item.a1}</td><td>${item.a2}</td></tr>`
+        })
+        return res;
+    }
+
+    let mergeArr = (arr1, arr2) => {
+        let res = [];
+        arr2.forEach((item, index) => {
+            res.push({a1: arr1[index], a2: item})
+        })
+        return res;
+    }
+
+    let copyData = (id) => {
+        // console.log(document.execCommand('clear'))
+        // var urlField = document.querySelector('.item-list');
+        // var urlField = document.querySelector('table');
+        var urlField = document.getElementById(`${id}`);
+
         // console.log("urlField: ", urlField)
         var range = document.createRange();
-        // console.log("range: ", range)
         range.selectNode(urlField);
+
         // console.log("range2: ", range.selectNode(urlField))
+        // window.getSelection().deleteFromDocument()
         window.getSelection().addRange(range);
         document.execCommand('copy');
     }
-
+  
     $("#show-detail").click(() => {
+        // console.log(mergeArr(arrListDesNoExist, arrListNameNoExist))
         $("#box-info2").show()
         $("#box-info1").hide()
         $("#list-MS").html("");
         $("#wrap-item-row1").html("");
         $("#wrap-item-row2").html("")
+        $("#table-MS-false").html("")
+        $("#table-NAME-false").html("")
         $("#list-MS").append(rederDataMS(arrListDesNoExist))
         $("#wrap-item-row1").append(rederDataMS(arrListNameFalse))
         $("#wrap-item-row2").append(rederDataMS(arrListNameFalseBOM))
+        $('#table-MS-false').append(rederDataCopy(mergeArr(arrListDesNoExist, arrListNameNoExist)))
+        $('#table-NAME-false').append(rederDataCopy(mergeArr(arrListNameFalse, arrListNameFalseBOM)))
     })
 
     $('#back-home').click(()=>{
@@ -114,8 +141,14 @@ var start = () => {
 
     $('#get-ms-false').click(()=> {
         setTimeout(()=>{
-            copyData()
-        },1000)
+            copyData('table-MS-false')
+        },200)
+    })
+
+    $('#get-name-false').click(()=> {
+        setTimeout(()=>{
+            copyData('table-NAME-false')
+        },200)
     })
 }
 
@@ -253,7 +286,8 @@ let compareDataTwoFile = () => {
             arrlistGoc.push([arrListDesBOM[getLocation(item, arrListDesBOM)], arrListNameVNBOM[getLocation(item, arrListDesBOM)], arrListNameENBOM[getLocation(item, arrListDesBOM)], arrListNameMSPHOIBOM[getLocation(item, arrListDesBOM)]])
         } else {
             countNoExist = countNoExist + 1;
-            arrListDesNoExist.push(item)
+            arrListDesNoExist.push(item);
+            arrListNameNoExist.push(arrLisTNameVN[index])
             // mã số không có trong BOM
             // mã số ko có lấy tên tiếng việt để điền tên tiếng anh
             if (getLocation(arrLisTNameVN[index], arrListNameVNBOM) != null) {
@@ -272,7 +306,7 @@ let compareDataTwoFile = () => {
     $('.numbers-exist').text(countNoExist)
     $('.mumbers-fale-name').text(countNameFalse)
 
-
+    // console.log(arrListNameNoExist)
     // console.log(countNameFalse)
     // console.log(arrListNameFalse)
     // console.log(arrListNameFalseBOM)

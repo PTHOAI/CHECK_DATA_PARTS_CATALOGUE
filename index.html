@@ -73,7 +73,7 @@
 
         <div class="box-add-ss" id="box-info2" style="display: none;">
             <div style="text-align: center; font-weight: bold; font-size: 22px; padding: 20px 0px;">THÔNG TIN CHI TIẾT</div>
-            <div class="wrap-content-detal" style="display: flex;">
+            <div class="wrap-content-detal" style="display: flex; justify-content: center;">
                 <div class="content-ms">
                     <div class="content-info" style="padding-bottom: 0px;">Danh sách mã số không khớp với danh sách BOM</div>
                     <div style="display: flex; justify-content: center; border-bottom: 1px solid #00529c; margin-bottom: 10px;">
@@ -114,6 +114,12 @@
     <div class="css_footer">
         <div >Copyright©2024 Phan Thanh Hoài</div>
     </div>
+    <div style="height: 300px; overflow: auto; position: fixed; top: 20px; z-index: -99; opacity: 0;">
+        <table class="table-cs-content" id="table-MS-false"></table>
+    </div>
+    <div style="height: 300px; overflow: auto; position: fixed; top: 20px; right: 10px; z-index: -99; opacity: 0;">
+        <table class="table-cs-content" id="table-NAME-false"></table>
+    </div>
     <div id="notification" class="notification">Chúc bạn một ngày làm việc vui vẻ !</div>
         <div id="loading" style="display: none; position: fixed;">
             <div class="level1"></div>
@@ -125,6 +131,7 @@
         </div>
         
         <!-- <button id="oktest">fkodf</button> -->
+         
     </body>
          <!-- anh hoai -->
             <script src="./assets/script/function/function.js"></script>
