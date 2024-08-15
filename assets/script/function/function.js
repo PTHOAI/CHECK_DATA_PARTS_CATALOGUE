@@ -41,8 +41,8 @@ var start = () => {
     $("#box-info1").show()
     $('.wrap-content').css({ height: `${window.innerHeight - 129}px` })
     $('#list-MS').css({ height: `${window.innerHeight - 483}px` })
-    $('#wrap-item-row1').css({ height: `${window.innerHeight - 483}px` })
-    $('#wrap-item-row2').css({ height: `${window.innerHeight - 483}px` })
+    $('#list-name-false').css({ height: `${window.innerHeight - 483}px` })
+    // $('#wrap-item-row2').css({ height: `${window.innerHeight - 483}px` })
     console.log(window.innerHeight)
     const dropArea = document.querySelector(".box-add-ss"),
         button = dropArea.querySelector(".button-goc"),
@@ -81,7 +81,11 @@ var start = () => {
     let rederDataMS = (arrs) => {
         let res = '';
         arrs.forEach((item) => {
-            res = res + `<div class="item-list">${item}</div>`
+            res = res + `<div class="header-render" style="display: flex;">
+
+                        <div class="item-list-1" style="flex: 0.52;">${item.a1}</div>
+                        <div class="item-list-2" style="flex: 0.47;">${item.a2}</div>                     
+                    </div>`
         })
         return res;
     }
@@ -123,15 +127,16 @@ var start = () => {
         $("#box-info2").show()
         $("#box-info1").hide()
         $("#list-MS").html("");
-        $("#wrap-item-row1").html("");
-        $("#wrap-item-row2").html("")
+        $("#list-name-false").html("");
+        // $("#wrap-item-row2").html("")
         $("#table-MS-false").html("")
         $("#table-NAME-false").html("")
-        $("#list-MS").append(rederDataMS(arrListDesNoExist))
-        $("#wrap-item-row1").append(rederDataMS(arrListNameFalse))
-        $("#wrap-item-row2").append(rederDataMS(arrListNameFalseBOM))
-        $('#table-MS-false').append(rederDataCopy(mergeArr(arrListDesNoExist, arrListNameNoExist)))
-        $('#table-NAME-false').append(rederDataCopy(mergeArr(arrListNameFalse, arrListNameFalseBOM)))
+        $("#list-MS").append(rederDataMS(mergeArr(arrListDesNoExist, arrListNameNoExist)))
+        // $("#list-name-false").append(rederDataMS(arrListNameFalse))
+
+        $("#list-name-false").append(rederDataMS(mergeArr(arrListNameFalse, arrListNameFalseBOM)))
+        // $("#wrap-item-row2").append(rederDataMS(arrListNameFalseBOM))
+        
     })
 
     $('#back-home').click(()=>{
@@ -140,15 +145,22 @@ var start = () => {
     })
 
     $('#get-ms-false').click(()=> {
-        setTimeout(()=>{
-            copyData('table-MS-false')
-        },200)
+        $("#table-MS-false").html("")
+        $('#table-MS-false').append(rederDataCopy(mergeArr(arrListDesNoExist, arrListNameNoExist)))
+        copyData('table-MS-false')
+        // setTimeout(()=>{
+        //     copyData('table-MS-false')
+        // },200)
     })
 
     $('#get-name-false').click(()=> {
-        setTimeout(()=>{
-            copyData('table-NAME-false')
-        },200)
+        $("#table-MS-false").html("")
+        $('#table-MS-false').append(rederDataCopy(mergeArr(arrListNameFalse, arrListNameFalseBOM)))
+        copyData('table-MS-false')
+        // setTimeout(()=>{
+        //     // copyData('table-NAME-false')
+        //     copyData('table-MS-false')
+        // },200)
     })
 }
 
